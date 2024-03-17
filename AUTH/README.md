@@ -1,36 +1,16 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+- npm i -d prisma 
+- npx prisma init 
+when prisma is set up (in prisma/schema-prisma file) add all the schemas that you need
+- npm i @prisma/client
+- Connect prisma to mongodb server 
+-  Make the schema for the user and the account
+-  npm i next-auth@latest @next-auth/prisma-adapter
+next-auth allows us to perform authentication operations while prisma-adapter allows us to connect next-auth to prisma
+- make a prisma client exporter file in app/lib (this is boilerplate)
+- make authentication endpoint route in app/api/auth/[...next-auth]/route.jsx
+this is the file that mentions all the authentication options you want to provide (ex-google provide , github provider , credentials provider)
+for google / github and more such providers , we only need to pass the client id and secret key from your account
+but for credentials provider we need to pass all the credentials need in a form like format , in this provider itself , we need to write the authorize logic (inside async authorize(credentials) function) in this function credentials is the object containing all the properties passed in the form and to compare it with values from the database , we need to use prisma to operate on database
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- at last to implement log in logic , use sigIn function by next-auth/react this function will set the session token and hence change the data associated with the token 
+- to implement the register logic , make seperate api/register/route file to handle fetch request and check if that user is already registered , if not make an entry in the database , if yes , then throw an error as response
