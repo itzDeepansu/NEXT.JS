@@ -14,3 +14,6 @@ but for credentials provider we need to pass all the credentials need in a form 
 
 - at last to implement log in logic , use sigIn function by next-auth/react this function will set the session token and hence change the data associated with the token 
 - to implement the register logic , make seperate api/register/route file to handle fetch request and check if that user is already registered , if not make an entry in the database , if yes , then throw an error as response
+
+- an error would come , if we dont use npx prisma generate before starting our server for the first time
+- also we need to add new database url everytime when we turn off for some long time

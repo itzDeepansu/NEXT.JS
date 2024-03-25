@@ -1,36 +1,35 @@
 "use client";
-import React , {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 const page = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     watch,
     reset,
-    formState: { errors ,isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful },
   } = useForm();
-  const onSubmit = async(data) =>{
-    const res = await fetch("api/register",{
+  const onSubmit = async (data) => {
+    const res = await fetch("api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
-    if(res.status!=400){
-      alert("Registered successfully")
-      reset()
-    }
-    else{
-      alert("Error occured")
-      const b = await res.json()
+    if (res.status != 400) {
+      alert("Registered successfully");
+      reset();
+      router.push("/login");
+    } else {
+      alert("Error occured");
+      const b = await res.json();
       console.log(b);
     }
   };
-  // useEffect(() => {
-  //   reset();
-  // }, [isSubmitSuccessful])
   return (
     <div className=" h-screen flex items-center justify-center bg-white text-black">
       <div className="flex items-center justify-center bg-transparent h-[630px] w-[1150px] gap-6">
@@ -63,16 +62,20 @@ const page = () => {
               className="h-12 placeholder-black border-b-2 border-b-slate-200 outline-none bg-transparent focus:border-b-black focus:border-b-2 focus:placeholder:text-sm focus:placeholder:-translate-y-4 focus:placeholder:transition-all focus:placeholder:duration-400"
               placeholder="Email"
             />
-            {errors.email && (<span className="text-red-600">{errors.email.message}</span>)}
+            {errors.email && (
+              <span className="text-red-600">{errors.email.message}</span>
+            )}
             <input
               type="password"
-              {...register("password",{
-                required: {value:true , message : "This Field is Mandatory"}
+              {...register("password", {
+                required: { value: true, message: "This Field is Mandatory" },
               })}
               className="h-12 placeholder-black border-b-2 border-b-slate-200 outline-none bg-transparent focus:border-b-black focus:border-b-2 focus:placeholder:text-sm focus:placeholder:-translate-y-4 focus:placeholder:transition-all focus:placeholder:duration-400"
               placeholder="Password"
             />
-            {errors.password && (<span className="text-red-600">{errors.password.message}</span>)}
+            {errors.password && (
+              <span className="text-red-600">{errors.password.message}</span>
+            )}
             <input
               type="submit"
               value="Create Account"
